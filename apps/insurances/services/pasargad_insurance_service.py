@@ -10,7 +10,8 @@ from django.db import transaction
 from ..serializers import (PersonSerializer,
                            InsuranceCompanySerializer,
                            PolicyholderSerializer,
-                           InsurancePlanSerializer)
+                           InsurancePlanSerializer,
+                           InsurancePolicySerializer)
 
 
 class PasargadInsuranceService(BaseInsuranceService):
@@ -56,14 +57,15 @@ class PasargadInsuranceService(BaseInsuranceService):
                 policy_holder = self._get_or_create_policy_holder(policy_holder_data=data.get('policyholder'))
                 insurance_plan = self._get_or_create_insurance_plan(insurance_plan_data=data.get('insurance_plan'))
 
-                policy_holder_serializer = PolicyholderSerializer(data=data.get('insurance_policy'))
-                if policy_holder_serializer.is_valid():
-                    insurance_policy = policy_holder_serializer.save(person=person,
-                                                                     insurance_company=insurance_company,
-                                                                     policy_holder=policy_holder,
-                                                                     insurance_plan=insurance_plan)
+                insurance_policy_serializer = InsurancePolicySerializer(data=data.get('insurance_policy'))
+                if insurance_policy_serializer.is_valid():
+                    insurance_policy = InsurancePolicy.objects.create(person=person,
+                                                                      insurance_company=insurance_company,
+                                                                      policyholder=policy_holder,
+                                                                      plan=insurance_plan,
+                                                                      **insurance_policy_serializer.validated_data)
                     return insurance_policy
                 else:
-                    raise ValidationError(policy_holder_serializer.errors)
+                    raise ValidationError(insurance_policy_serializer.errors)
         except Exception as e:
             raise ValidationError(f"Transaction failed: {str(e)}")
