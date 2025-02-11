@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import validate_email
 from phonenumber_field.modelfields import PhoneNumberField
-from apps.insurance.models.base import BaseModel
+from apps.insurances.models.base import BaseModel
 
 
 class Person(BaseModel):
