@@ -31,7 +31,8 @@ class PolicyholderSerializer(serializers.ModelSerializer):
 class InsurancePolicySerializer(serializers.ModelSerializer):
     class Meta:
         model = InsurancePolicy
-        fields = "__all__"
+        # fields = "__all__"
+        fields = ("unique_policy_number", "start_date", "end_date", "confirmation_date")
 
 
 class InsurancePlanSerializer(serializers.ModelSerializer):
@@ -45,4 +46,3 @@ class InsuranceFormSerializer(serializers.Serializer):
     policyholder = PolicyholderSerializer()
     insurance_policy = InsurancePolicySerializer()
     insurance_plan = InsurancePlanSerializer()
-    

@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import PersonModelViewSet, InsuranceFormCreateView
+from .views import PersonModelViewSet, InsurancePolicyCreateView
 
 
 router = DefaultRouter()
@@ -13,5 +13,5 @@ router.register(r'persons', PersonModelViewSet, basename='person')
 
 urlpatterns = [
     # path('', include(router.urls)),  # All API endpoints
-    path('api/custom-person-create/', InsuranceFormCreateView.as_view(), name='custom-person-create'),
+    path('api/custom-person-create/', InsurancePolicyCreateView.as_view(), name='custom-person-create'),
 ]
