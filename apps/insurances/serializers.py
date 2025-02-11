@@ -38,3 +38,11 @@ class InsurancePlanSerializer(serializers.ModelSerializer):
     class Meta:
         model = InsurancePlan
         fields = "__all__"
+
+class InsuranceFormSerializer(serializers.Serializer):
+    person = PersonSerializer()
+    insurance_company = InsuranceCompanySerializer()
+    policyholder = PolicyholderSerializer()
+    insurance_policy = InsurancePolicySerializer()
+    insurance_plan = InsurancePlanSerializer()
+    

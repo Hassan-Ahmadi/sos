@@ -4,6 +4,8 @@
 *.py[cod]  # Compiled Python files  
 
 # Django specific files  
+media/
+staticfiles/
 *.sqlite3  # SQLite database  
 db.sqlite3  
 __pycache__/

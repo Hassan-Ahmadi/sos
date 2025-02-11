@@ -4,7 +4,13 @@ django-phonenumbers==1.0.1
 django-phonenumber-field==8.0.0
 django_extensions==3.2.3
 
-# documentaion
+# Documentaion
+
+# Swagger
+drf_yasg==1.21.8
+django-rest-swagger==2.2.0
+
+# MKDocs
 mkdocs
 mkdocs-material
 mkdocs-git-revision-date-localized-plugin
