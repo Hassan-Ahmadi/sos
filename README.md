@@ -9,7 +9,7 @@ $ cd sos
 
 Create a virtual environment to install dependencies in and activate it:
 ``` bash
-$ virtualenv2 --no-site-packages .venv
+$ virtualenv --no-site-packages .venv
 $ source .venv/bin/activate
 ```
 
@@ -43,4 +43,11 @@ Documents are located in `docs` directory. Also you can run the following comman
 
 ``` bash
 (venv)$ mkdocs serve -a 127.0.0.1:8001
+```
+
+## Tests
+
+To run the tests for the view simply run:
+``` bash
+(venv)$ python manage.py test apps.insurances.tests.test_views
 ```

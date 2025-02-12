@@ -24,7 +24,7 @@ class InsuranceCompanyAdmin(admin.ModelAdmin):
 
 
 class InsurancePolicyAdmin(admin.ModelAdmin):
-    list_display = ('person', 'insurance_company', 'policyholder', 'unique_policy_number', 'start_date', 'end_date')
+    list_display = ('person', 'insurance_company', 'insurance_plan', 'policy_holder', 'unique_policy_number', 'start_date', 'end_date')
 
 
 admin.site.register(Person, PersonAdmin)

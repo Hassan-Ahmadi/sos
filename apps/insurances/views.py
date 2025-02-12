@@ -1,12 +1,10 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.viewsets import ModelViewSet
 from drf_yasg.utils import swagger_auto_schema
-
 from apps.insurances.factories.insurance_company_adapters_factory import InsuranceCompanyAdaptorsFactory
-from .models.person import Person
-from .serializers import PersonSerializer, InsurancePolicySerializer
+
+from .serializers import InsurancePolicySerializer
 
 
 class InsurancePolicyCreateView(APIView):
@@ -18,22 +16,21 @@ class InsurancePolicyCreateView(APIView):
         """
         data = request.data
         insurance_company_name = data.get("insurance_company", {}).get("name")
-        try:
-            adapter = InsuranceCompanyAdaptorsFactory.get(insurance_company_name)
-            serializer_class = adapter.get_serializer_class()
-        except ValueError:
-            return Response(
-                {"message": "Insurance company not supported"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
 
+        if not insurance_company_name:
+            return Response({"message": "Insurance company name is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Get the correct adapter and its serializer
+        adapter = InsuranceCompanyAdaptorsFactory.get(insurance_company_name)
+        serializer_class = adapter.get_serializer_class()
         serializer = serializer_class(data=data, context={'request': request})
+        
         if serializer.is_valid():
-            data = serializer.save()
+            insurance_policy = serializer.save()
             return Response(
                 {
-                    "message": "Data processed successfully",
-                    "data": data
+                    "message": "Insurance policy created successfully",
+                    "data": InsurancePolicySerializer(insurance_policy).data
                 },
                 status=status.HTTP_201_CREATED
             )
@@ -42,8 +39,3 @@ class InsurancePolicyCreateView(APIView):
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
         )
-
-
-class PersonModelViewSet(ModelViewSet):
-    queryset = Person.objects.all()
-    serializer_class = PersonSerializer
