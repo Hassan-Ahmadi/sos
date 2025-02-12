@@ -1,8 +1,8 @@
-from .services.pasargad_insurance_service import PasargadInsuranceService
-from .services.hekmat_insurance_service import HekmatInsuranceService
+from ..services.pasargad_insurance_service import PasargadInsuranceService
+from ..services.hekmat_insurance_service import HekmatInsuranceService
 
 
-class InsuranceCompanyFactory:
+class InsuranceCompanyServiceFactory:
     """
     Factory class to get the appropriate insurance service based on the insurance company name.
 
@@ -18,12 +18,14 @@ class InsuranceCompanyFactory:
                 object: An instance of the corresponding insurance service.
     """
 
-    @staticmethod
-    def get_service(insurance_company: str):
-        match insurance_company.lower():
-            case "pasargad":
-                return PasargadInsuranceService()
-            case "hekmat":
-                return HekmatInsuranceService()
-            case _:
-                raise ValueError("Insurance company not supported")
+    _handlers = {
+        "pasargad": PasargadInsuranceService,
+        "hekmat": HekmatInsuranceService,
+    }
+    
+    @classmethod
+    def get(cls, insurance_company: str):
+        if insurance_company.lower() in cls._handlers:
+            return cls._handlers.get(insurance_company.lower())
+        else:
+            raise ValueError("Insurance company not supported")
